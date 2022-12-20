@@ -1,7 +1,16 @@
 const express = require('express');
+var morgan = require('morgan');
 const app = express();
 // Without the json-parser, the body property would be undefined. The json-parser functions so that it takes the JSON data of a request, transforms it into a JavaScript object and then attaches it to the body property of the request object before the route handler is called.
 app.use(express.json());
+
+// Customize morgan so that it also shows the data sent in HTTP POST requests
+morgan.token('data', function (req, res) {
+	return JSON.stringify(req.body);
+});
+app.use(
+	morgan(':method :url :status :res[content-length] - :response-time ms :data')
+);
 
 let persons = [
 	{
@@ -95,6 +104,12 @@ app.delete('/api/persons/:id', (request, response) => {
 
 	response.status(204).end();
 });
+
+const unknownEndpoint = (request, response) => {
+	response.status(404).send({ error: 'unknown endpoint' });
+};
+
+app.use(unknownEndpoint);
 
 const PORT = 3001;
 app.listen(PORT, () => {
