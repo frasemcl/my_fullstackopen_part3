@@ -61,7 +61,6 @@ app.get('/info', (request, response) => {
 });
 
 app.get('/api/persons', (request, response) => {
-	console.log(request.headers);
 	response.json(persons);
 });
 
