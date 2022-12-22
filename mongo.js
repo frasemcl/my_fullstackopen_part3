@@ -1,3 +1,5 @@
+// Not part of the app, used to test the MongoDB setup
+
 const mongoose = require('mongoose');
 
 if (process.argv.length < 3) {
