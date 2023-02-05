@@ -18,7 +18,13 @@ mongoose
 	});
 
 const personSchema = new mongoose.Schema({
-	name: { type: String, minLength: 3, required: true },
+	name: {
+		type: String,
+		minLength: 3,
+		required: true,
+		// Got the duplicate name not allowed like this, somewhat confusing!
+		index: { unique: true, dropDups: true },
+	},
 	number: {
 		type: String,
 		required: [true, 'User phone number required as ###-###-####'],
